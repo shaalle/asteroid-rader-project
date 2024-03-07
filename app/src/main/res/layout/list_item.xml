@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="asteriod"
+            type="com.udacity.asteroidradar.models.Asteroid"
+            />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+
+    tools:background="@color/app_background"
+    android:padding="16dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/asteriods_title"
+        style="@style/TitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="465633 (2009 JR5)"
+        android:text="@{asteriod.codename}"
+        />
+
+    <TextView
+        style="@style/SubtitleTextView"
+        android:id="@+id/asteroids_approach_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/asteriods_title"
+        tools:text="2024-02-09"
+        android:text="@{asteriod.closeApproachDate}"/>
+
+    <ImageView
+        android:id="@+id/asteroids_isHazardous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:statusIcon="@{asteriod.potentiallyHazardous}"
+        tools:src="@drawable/ic_status_normal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
