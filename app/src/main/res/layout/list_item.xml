@@ -10,12 +10,15 @@
             name="asteriod"
             type="com.udacity.asteroidradar.models.Asteroid"
             />
+        <variable
+            name="clickListener"
+            type="com.udacity.asteroidradar.main.MainAsteroidAdapter.AsteroidListener" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
 
     android:layout_width="match_parent"
-
+    android:onClick="@{() -> clickListener.onClick(asteriod)}"
     tools:background="@color/app_background"
     android:padding="16dp"
     android:layout_height="wrap_content">
