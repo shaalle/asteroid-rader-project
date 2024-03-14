@@ -60,7 +60,7 @@ class MainFragment : Fragment() {
         viewModel.displaySnackbarEvent.observe(viewLifecycleOwner, { displaySnackbarEvent ->
             if (displaySnackbarEvent) {
                 displaySnackbar(
-                    getString(R.string.problems_retrieving_online_data_displaying_local_data),
+                    getString(R.string.displaying_local_data),
                     requireView()
                 )
                 viewModel.doneDisplayingSnackbar()
@@ -79,9 +79,9 @@ class MainFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.view_week_asteroids_menu -> viewModel.onViewWeekAsteroidsClicked()
-            R.id.view_today_asteroids_menu -> viewModel.onTodayAsteroidsClicked()
-            R.id.view_saved_asteroids_menu -> viewModel.onSavedAsteroidsClicked()
+            R.id.view_week_menu -> viewModel.onViewWeekAsteroidsClicked()
+            R.id.view_today_menu -> viewModel.onTodayAsteroidsClicked()
+            R.id.view_saved_menu -> viewModel.onSavedAsteroidsClicked()
         }
         return true
     }
