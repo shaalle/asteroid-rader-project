@@ -10,7 +10,6 @@ import kotlinx.coroutines.Deferred
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -44,46 +43,33 @@ import retrofit2.http.Query
 //    val service: ApiService = retrofit.create(ApiService::class.java)
 //}
 
-interface AsteroidRadarApiService {
+interface AstroidRadarApiService {
 
-    @GET("api/asteroids")
-    suspend fun getAsteroids(
-        @Query("startDate") fromDate: String,
-        @Query("endDate") toDate: String
-    ): ResponseBody
+        @GET("planetary/apod")
+    fun getPicture(
+        @Query("api_key") apiKey: String = Constants.API_KEY
+    ): Deferred<PictureOfDay>
+    @GET("neo/rest/v1/feed")
+    fun getAsteroids(
+        @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String,
+        @Query("api_key") apiKey: String = Constants.API_KEY
+    ): Deferred<ResponseBody>
 
-    @GET("api/picture")
-    suspend fun getPicture(
-        @Query("date") date: String
-    ): Picture
 }
 
-data class Picture(
-    val url: String
-)
-
-object AsteroidApiClient {
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
+object AsteroidClient {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.example.com")
-        .addConverterFactory(MoshiConverterFactory.create())
+        .baseUrl(Constants.BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
 
-    val service: AsteroidApiService =
-        retrofit.create(AsteroidApiService::class.java)
+    val service: AstroidRadarApiService =
+        retrofit.create(AstroidRadarApiService::class.java)
 
 }
-
-// Usage:
-
-val api = AsteroidApiClient.service
-
-// Get asteroids
-val response = api.getAsteroids(
-    fromDate = startDate,
-    toDate = endDate
-)
-
-// Get picture
-val picture = api.getPicture(date = "2023-01-15")

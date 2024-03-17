@@ -1,7 +1,9 @@
 package com.udacity.asteroidradar.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,6 +21,7 @@ class MainFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +39,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupRecyclerViewAdapter() {
         adapter = MainAsteroidAdapter(MainAsteroidAdapter.AsteroidListener { asteroid ->
             viewModel.onAsteroidClicked(asteroid)
@@ -43,6 +47,7 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.adapter = adapter
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupObservers() {
         viewModel.asteroids.observe(viewLifecycleOwner, { asteroids ->
             if (asteroids != null) {
@@ -60,7 +65,7 @@ class MainFragment : Fragment() {
         viewModel.displaySnackbarEvent.observe(viewLifecycleOwner, { displaySnackbarEvent ->
             if (displaySnackbarEvent) {
                 displaySnackbar(
-                    getString(R.string.displaying_local_data),
+                    "Online data is not loading. Displaying local database data",
                     requireView()
                 )
                 viewModel.doneDisplayingSnackbar()
@@ -77,11 +82,12 @@ class MainFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.view_week_menu -> viewModel.onViewWeekAsteroidsClicked()
-            R.id.view_today_menu -> viewModel.onTodayAsteroidsClicked()
-            R.id.view_saved_menu -> viewModel.onSavedAsteroidsClicked()
+            R.id.view_week_menu -> viewModel.onViewWeekMenuClicked()
+            R.id.view_today_menu -> viewModel.onTodayMenuClicked()
+            R.id.view_saved_menu -> viewModel.onSavedMenuClicked()
         }
         return true
     }

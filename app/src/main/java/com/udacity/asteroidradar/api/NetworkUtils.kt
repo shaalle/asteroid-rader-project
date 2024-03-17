@@ -1,5 +1,8 @@
 package com.udacity.asteroidradar.api
 
+import android.net.Network
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.udacity.asteroidradar.models.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.db.DatabaseAsteroid
@@ -8,13 +11,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
 
     val asteroidList = ArrayList<Asteroid>()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     val nextSevenDaysFormattedDates = getNextSevenDaysFormattedDates()
     for (formattedDate in nextSevenDaysFormattedDates) {
@@ -60,12 +66,12 @@ private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     return formattedDateList
 }
 
-fun getToday(): String {
+fun getTodaysDate(): String {
     val calendar = Calendar.getInstance()
     return formatDate(calendar.time)
 }
 
-fun getSevenDay(): String {
+fun getWeekDate(): String {
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.DAY_OF_YEAR, 7)
     return formatDate(calendar.time)
@@ -95,7 +101,7 @@ fun ArrayList<Asteroid>.asDomainModel(): Array<DatabaseAsteroid> {
 suspend fun getPictureOfDay(): PictureOfDay? {
     var pictureOfDay: PictureOfDay
     withContext(Dispatchers.IO) {
-        pictureOfDay = Network.service.getPictureOfDayAsync().await()
+        pictureOfDay = AsteroidClient.service.getPicture().await()
     }
     if (pictureOfDay.mediaType == Constants.IMAGE_MEDIA_TYPE) {
         return pictureOfDay

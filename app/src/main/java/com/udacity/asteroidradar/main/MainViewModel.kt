@@ -1,24 +1,28 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.api.getPictureOfDay
-import com.udacity.asteroidradar.api.getSevenDay
-import com.udacity.asteroidradar.api.getToday
-import com.udacity.asteroidradar.db.AsteroidDatabase
+import com.udacity.asteroidradar.api.getTodaysDate
+import com.udacity.asteroidradar.api.getWeekDate
+import com.udacity.asteroidradar.db.AsteroidDB
 import com.udacity.asteroidradar.models.Asteroid
 import com.udacity.asteroidradar.models.PictureOfDay
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+@RequiresApi(Build.VERSION_CODES.O)
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val database = AsteroidDatabase.getDatabase(application)
+    private val database = AsteroidDB.provideDatabase(application)
     private val asteroidRepository = AsteroidRepository(database)
 
     private val _navigateToDetailFragment = MutableLiveData<Asteroid>()
@@ -38,7 +42,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         get() = _displaySnackbarEvent
 
     init {
-        onViewWeekAsteroidsClicked()
+        onViewWeekMenuClicked()
         viewModelScope.launch {
             try {
                 asteroidRepository.refreshAsteroids()
@@ -66,25 +70,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _displaySnackbarEvent.value = false
     }
 
-    fun onViewWeekAsteroidsClicked() {
+    fun onViewWeekMenuClicked() {
+
+        Log.d("Except", getTodaysDate())
         viewModelScope.launch {
-            database.asteroidDao.getAsteroidsByCloseApproachDate(getToday(), getSevenDay())
+            database.asteroidDao.getAsteroidsByCloseApproachDate(getTodaysDate(), getWeekDate())
                 .collect { asteroids ->
                     _asteroids.value = asteroids
                 }
         }
     }
 
-    fun onTodayAsteroidsClicked() {
+    fun onTodayMenuClicked() {
         viewModelScope.launch {
-            database.asteroidDao.getAsteroidsByCloseApproachDate(getToday(), getToday())
+            database.asteroidDao.getAsteroidsByCloseApproachDate(getTodaysDate(), getWeekDate())
                 .collect { asteroids ->
                     _asteroids.value = asteroids
                 }
         }
     }
 
-    fun onSavedAsteroidsClicked() {
+    fun onSavedMenuClicked() {
         viewModelScope.launch {
             database.asteroidDao.getAllAsteroids().collect { asteroids ->
                 _asteroids.value = asteroids

@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/potentially_hazardous_asteroid_image"
+            android:contentDescription="@string/potentially_hazardous_image"
             tools:srcCompat="@drawable/asteroid_safe" />
 
         <ScrollView
@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:contentDescription="@string/astronomical_unit_explanation_button"
-                        android:onClick="@{() -> viewModel.onExplanationButtonClicked()}"
+                        android:onClick="@{() -> viewModel.onExplanationImageTouched()}"
                         app:srcCompat="@drawable/ic_help_circle" />
 
                 </LinearLayout>

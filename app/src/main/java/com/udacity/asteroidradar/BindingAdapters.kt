@@ -13,7 +13,7 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
         imageView.contentDescription =
-            context.getString(R.string.potentially_hazardous_asteroid_image)
+            context.getString(R.string.potentially_hazardous_image)
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
         imageView.contentDescription = context.getString(R.string.not_hazardous_asteroid_image)
@@ -26,7 +26,7 @@ fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
         imageView.contentDescription =
-            context.getString(R.string.potentially_hazardous_asteroid_image)
+            context.getString(R.string.potentially_hazardous_image)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
         imageView.contentDescription = context.getString(R.string.not_hazardous_asteroid_image)
@@ -65,7 +65,7 @@ fun bindPictureOfDay(imageView: ImageView, pictureOfDay: PictureOfDay?) {
 
         val contentDescription =
             String.format(
-                context.getString(R.string.nasa_picture_of_day_content_description_format),
+                context.getString(R.string.pic_of_the_day__description),
                 pictureOfDay.title
             )
         imageView.contentDescription = contentDescription
@@ -73,6 +73,6 @@ fun bindPictureOfDay(imageView: ImageView, pictureOfDay: PictureOfDay?) {
         imageView.setImageResource(R.drawable.no_image)
         imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
         imageView.contentDescription =
-            context.getString(R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet)
+            context.getString(R.string.pic_of_day)
     }
 }

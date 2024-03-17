@@ -9,11 +9,11 @@ class DetailViewModel: ViewModel() {
     val displayExplanationDialog: LiveData<Boolean>
         get() = _displayExplanationDialog
 
-    fun onExplanationButtonClicked(){
+    fun onExplanationImageTouched(){
         _displayExplanationDialog.value = true
     }
 
-    fun onDisplayExplanationDialogDone(){
+    fun closeExplanationDialog(){
         _displayExplanationDialog.value = false
     }
 }

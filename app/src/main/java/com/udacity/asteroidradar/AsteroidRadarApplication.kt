@@ -48,21 +48,20 @@ class AsteroidRadarApplication: Application() {
             TimeUnit.DAYS
         ).setConstraints(constraints)
             .build()
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
+        WorkManager.getInstance(getApplicationContext()).enqueueUniquePeriodicWork(
             REFRESH_ASTEROIDS_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP, // keep - will disregard the new request
+            ExistingPeriodicWorkPolicy.KEEP,
             repeatingRefreshRequest
         )
 
         val repeatingDeleteRequest = PeriodicWorkRequestBuilder<DeleteDataWork>(
-            // once a day
             1,
             TimeUnit.DAYS
         ).setConstraints(constraints)
             .build()
         WorkManager.getInstance().enqueueUniquePeriodicWork(
             DELETE_ASTEROIDS_WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP, // keep - will disregard the new request
+            ExistingPeriodicWorkPolicy.KEEP,
             repeatingDeleteRequest
         )
     }

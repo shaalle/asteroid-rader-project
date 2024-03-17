@@ -37,7 +37,7 @@ class DetailFragment : Fragment() {
         viewModel.displayExplanationDialog.observe(viewLifecycleOwner, { displayExplanationDialog ->
             if (displayExplanationDialog) {
                 displayAstronomicalUnitExplanationDialog()
-                viewModel.onDisplayExplanationDialogDone()
+                viewModel.closeExplanationDialog()
             }
         })
     }
